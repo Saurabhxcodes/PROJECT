@@ -32,10 +32,10 @@ class Admin(db.Model):
 class Quiz(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     question= db.Column(db.String(1024), unique=True, nullable=False)
-    option_A = db.Column(db.String(500), unique=True, nullable=False)
-    option_B = db.Column(db.String(500), unique=True, nullable=False)
-    option_C = db.Column(db.String(500), unique=True, nullable=False)
-    option_D = db.Column(db.String(500), unique=True, nullable=False)
+    option_A = db.Column(db.String(500), nullable=False)
+    option_B = db.Column(db.String(500), nullable=False)
+    option_C = db.Column(db.String(500), nullable=False)
+    option_D = db.Column(db.String(500), nullable=False)
     answer=db.Column(db.String(500),nullable=False)
     category = db.Column(db.String(80), nullable=False)
     created_on = db.Column(db.DateTime, default=datetime.now)    
@@ -151,7 +151,7 @@ def admin_login():
                     if admin.password == password:
                         create_admin_session(admin)
                         flash('Login Successfull', "success")
-                        return redirect('/admin_dashboard')
+                        return redirect('/admin/dashboard')
                     else:
                         errors['password'] = 'Password is invalid'
                 else:
@@ -194,7 +194,7 @@ def admin_register():
         flash('Login in admin to access this content','danger')
         return redirect('/')
 
-@app.route('/admin', methods=['GET','POST'])    
+@app.route('/admin/dashboard', methods=['GET','POST'])    
 def admin():
     if session.get('is_logged_in', False) and session.get('is_admin',False):
         return render_template('admin_dashboard.html')
@@ -234,8 +234,6 @@ def add_questions():
                     errors.append("Option D is invalid")
                 if len(answer) < 1:
                     errors.append("Answer is invalid")
-                if len(category) < 2:
-                    errors.append("Category is invalid")
                 if len(errors) == 0:
                     quiz = Quiz(question=question, option_A=option_A, option_B=option_B, option_C=option_C, option_D=option_D, answer=answer, category=category)
                     db.session.add(quiz)
