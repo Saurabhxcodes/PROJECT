@@ -14,11 +14,19 @@ while cam.isOpened():
         continue
     # add a question on the screen bottom
     q ="Is this a hand?"
-    cv2.putText(frame, q, (30, h - 20), font, 1, white, 2, cv2.LINE_AA)
-    cv2.rectangle(frame, (0, 0), (100, 50), green, 2)
-    cv2.putText(frame, "Yes", (30, 30), font, 1, green, 2, cv2.LINE_AA)
-    cv2.rectangle(frame, (w - 100, 0), (w, 50), red, 2)
-    cv2.putText(frame, "No", (w - 70, 30), font, 1, red, 2, cv2.LINE_AA)
+    cv2.putText(frame, q, (30, h - 50), font, 1, white, 2, cv2.LINE_AA)
+    cv2.rectangle(frame, (20, 20), (200,100), green, 2)
+    cv2.putText(frame, "category", (50, 50), font, 1, green, 2, cv2.LINE_AA)
+    cv2.rectangle(frame, (230, 20), (410,100), red, 2)
+    #cv2.putText(frame, "A", (w - 70, 30), font, 1, red, 2, cv2.LINE_AA)
+    cv2.rectangle(frame, (440, 20), (620,100), red, 2)
+   # cv2.putText(frame, "B", (w - 70, 30), font, 1, red, 2, cv2.LINE_AA)
+    cv2.rectangle(frame, (20, 130), (200,170), green, 2)
+   # cv2.putText(frame, "B", (w - 70, 30), font, 1, red, 2, cv2.LINE_AA)
+    cv2.rectangle(frame, (230,130), (410,210), red, 2)
+   # cv2.putText(frame, "B", (w - 70, 30), font, 1, red, 2, cv2.LINE_AA)
+    cv2.rectangle(frame, (440, 130), (620,210), red, 2)
+   # cv2.putText(frame, "B", (w - 70, 30), font, 1, red, 2, cv2.LINE_AA)
     cv2.imshow('Camera', frame)
     if cv2.waitKey(5) & 0xFF == 27:
         break

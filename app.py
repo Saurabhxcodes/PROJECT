@@ -43,11 +43,21 @@ class Quiz(db.Model):
     def __str__(self):
         return f'{self.question}'
 
+class Score(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    score = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    created_on = db.Column(db.DateTime, default=datetime.now)
+
+    def __str__(self):
+        return f'{self.score} of {self.user_id}'
+
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/app.sqlite'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.sqlite3'
     app.config['SQLALCHEMY_ECHO'] = True
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    
     app.secret_key = 'supersecretkeythatnooneknows'
     db.init_app(app)
     return app
@@ -95,7 +105,7 @@ def login():
                     if user.password == password:
                         create_login_session(user)
                         flash('Login Successfull', "success")
-                        return redirect('/')
+                        return redirect('/user/dashboard')
                     else:
                         errors['password'] = 'Password is invalid'
                 else:
@@ -161,9 +171,9 @@ def admin_login():
             errors['password'] = 'Please fill valid details'
     return render_template('admin_login.html', errors = errors)
 
-@app.route('/admin_register', methods=['GET','POST'])
+@app.route('/admin/register', methods=['GET','POST'])
 def admin_register():
-    if session.get('is_logged_in', False) and session.get('is_admin',False):
+    # if session.get('is_logged_in', False) and session.get('is_admin',False):
         errors = []
         if request.method == 'POST': # if form was submitted
             adminname = request.form.get('adminname')
@@ -189,10 +199,10 @@ def admin_register():
             else:
                 errors.append('Fill all the fields')
                 flash('admin account could not be created','warning')
-        return render_template('admin_login.html', error_list=errors)
-    else:
-        flash('Login in admin to access this content','danger')
-        return redirect('/')
+        return render_template('admin_register.html', error_list=errors)
+     # else:
+    #     flash('Login in admin to access this content','danger')
+    #     return redirect('/')
 
 @app.route('/admin/dashboard', methods=['GET','POST'])    
 def admin():
@@ -201,6 +211,13 @@ def admin():
     else:
         flash('Login in admin to access this content','danger')
         return redirect('/')
+@app.route('/user/dashboard', methods=['GET','POST'])    
+def user():
+    if session.get('is_logged_in', True):
+        return render_template('user_dashboard.html')
+    else:
+        flash('Login in admin to access this content','danger')
+        return redirect('/')        
 
 @app.route('/logout')
 def logout():
@@ -244,6 +261,27 @@ def add_questions():
                 errors.append('Fill all the fields')
                 flash('Question could not be added','warning')
         return render_template('add_question.html', error_list=errors)
+    else:
+        flash('Login in admin to access this content','danger')
+        return redirect('/')
+
+@app.route('/quiz/view')
+def view_questions():
+    if session.get('is_logged_in', False) and session.get('is_admin',False):
+        questions = Quiz.query.all()
+        return render_template('view_questions.html', questions=questions)
+    else:
+        flash('Login in admin to access this content','danger')
+        return redirect('/')
+
+@app.route('/quiz/delete/<int:id>')
+def delete_question(id):
+    if session.get('is_logged_in', False) and session.get('is_admin',False):
+        question = Quiz.query.get(id)
+        db.session.delete(question)
+        db.session.commit()
+        flash('Question deleted','success')
+        return redirect('/quiz/view')
     else:
         flash('Login in admin to access this content','danger')
         return redirect('/')
