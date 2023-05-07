@@ -5,10 +5,10 @@
 <div class="container">
     <div class="row form-row">
         <div class="col-lg-4 ">
-            <h1 class="my-4 display-4 text-center"><b>Sign In</b></h1>
+            <h1 class="my-4 display-4 text-center" style="color: blue; font-weight: 350; "><b>Sign In</b></h1>
             <form class="shadow-lg p-3 rounded bg-light" method="post">
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email address</label>
+                    <h4><label for="email" class="form-label">Email address</label></h4>
                     <input type="email" class="form-control" id="email" name="email" placeholder="ex: Ravi@gmail.com" aria-describedby="emailHelp">
                     {% if 'email' in errors %}
                     <div id="emailHelp" class="form-text text-danger">{{errors['email']}}</div>
@@ -16,7 +16,7 @@
 
                 </div>
                 <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
+                    <h4><label for="password" class="form-label">Password</label></h4>
                     <input type="password" class="form-control" id="password" name="password"
                         placeholder="Your Password" aria-describedby="pwdHelp">
                     {% if 'password' in errors %}
@@ -26,7 +26,7 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
             <p class=" text-center text-small">
-                <div class="sig"></div><a href="/admin_login" class="btn btn-primary">Login as Admin </a></div>
+                <div class="sig"><a href="/admin_login" class="btn btn-primary">Login as Admin </a></div></div>
             </p>
         </div>
     </div>
@@ -58,6 +58,7 @@
     }
     .sig{
         padding:5px;
+        margin-bottom:5px ;
     }
 
     h1 {
@@ -65,9 +66,16 @@
     }
 
     main {
-        background-color: rgb(189, 43, 80);
+        /* background-color: rgb(189, 43, 80);
         background-image:url('https://images.unsplash.com/photo-1472289065668-ce650ac443d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80');
+        background-size: cover; */
+        
+    }
+    body{
+        background-color: rgb(189, 43, 80);
+        background-image:linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.3)),url('https://images.unsplash.com/photo-1472289065668-ce650ac443d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80');
         background-size: cover;
+       
     }
     .mb-3{
         color:rgb(19, 18, 18);
@@ -75,7 +83,7 @@
     }
     .col-lg-4{
         background-color:rgb(250, 238, 238) ;
-        border: 2px solid rgb(238, 226, 226);
+        border: 2px solid rgb(146, 145, 145);
         
     }
 </style>

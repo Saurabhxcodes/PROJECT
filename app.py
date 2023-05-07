@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import random
+from camera_access import start_ar_quiz
 
 db = SQLAlchemy()
 
@@ -52,7 +53,7 @@ class Score(db.Model):
     created_on = db.Column(db.DateTime, default=datetime.now)
 
     def __str__(self):
-        return f'{self.score} of {self.user_id}'
+        return f'{self.score}'
 
 def create_app():
     app = Flask(__name__)
@@ -230,9 +231,11 @@ def user():
 def start_quiz(category):
     if session.get('is_logged_in', True):
         questions = Quiz.query.filter_by(category=category).all()
-        # shuffle questions
+        # shuffle questions and get a list of question ids
         random.shuffle(questions)
+        question_ids = [question.id for question in questions]
         # launch camera access py and pass the data like userid and category and question
+        start_ar_quiz(session['id'], question_ids)
         return redirect('/user/dashboard')
     else:
         flash('Login in admin to access this content','danger')
@@ -304,6 +307,11 @@ def delete_question(id):
     else:
         flash('Login in admin to access this content','danger')
         return redirect('/')
+    
+@app.route('/guidlines')
+def guidlines():
+    return render_template('guidlines.html')
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8000, debug=True)
