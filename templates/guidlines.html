@@ -284,6 +284,7 @@ body {
               <li data-target="#myCarousel" data-slide-to="5"></li>
               <li data-target="#myCarousel" data-slide-to="6"></li>
               <li data-target="#myCarousel" data-slide-to="7"></li>
+              <li data-target="#myCarousel" data-slide-to="8"></li>
             </ol>
         
             <!-- Wrapper for slides -->
@@ -319,6 +320,19 @@ body {
               <div class="item">
                 <img src="/static/images/8.png" alt="New york" style="width:100%;">
               </div>
+              
+
+              <div class="item">
+                <center>
+                <video id="myVideo" width="100%" height="450">
+                  <source src="/static/video/guide.mp4" type="video/mp4"></video>
+                  <div style="margin-bottom: px;">
+                    <button onclick="playVid()" type="button" style="background-color: #76b2ee; color: #f7f2f2;">Play Video</button>
+                    <button onclick="pauseVid()" type="button" style="background-color: #ca5121; color: white;">Pause Video</button></div></center>
+              </div>
+              
+
+              
             </div>
         
             <!-- Left and right controls -->
@@ -398,5 +412,17 @@ body {
 
     
 </body>
+
+<script> 
+  var vid = document.getElementById("myVideo"); 
+  
+  function playVid() { 
+    vid.play(); 
+  } 
+  
+  function pauseVid() { 
+    vid.pause(); 
+  } 
+  </script> 
 
 </html>
